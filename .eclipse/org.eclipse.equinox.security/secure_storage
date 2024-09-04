@@ -1,0 +1,5 @@
+#Equinox secure storage version 1.0
+#Tue Sep 03 00:05:10 EAT 2024
+/org.eclipse.userstorage/https%3A%2F%2Fmarketplace.eclipse.org%2F/serviceLabel=\t,TWFya2V0cGxhY2UgVXNlciBTdG9yYWdl
+/org.eclipse.userstorage/https%3A%2F%2Fmarketplace.eclipse.org%2F/serviceURI=\t,aHR0cHM6Ly9tYXJrZXRwbGFjZS5lY2xpcHNlLm9yZy8\=
+org.eclipse.equinox.security.preferences.version=1
