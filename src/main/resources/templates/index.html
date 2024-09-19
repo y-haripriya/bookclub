@@ -4,39 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Club</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+	 	  rel="stylesheet" 
+	 	  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+	 	  crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .book-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .book-card h3 {
+            margin-top: 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 8px 12px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
+	<div th:insert="~{fragments/header :: header}"></div>
+	 <br>
+	 <br>
+	   <main>
+		<div class="d-flex justify-content-center align-items-center vh-50">
+		        <div class="text-center">
     <h1>Welcome to the Book Club</h1>
+    <br>
+    <h2>Books List</h2>
 
-    <!-- List of books using Thymeleaf's each directive -->
-    <div>
-        <h2>Books List</h2>
-        <ul>
-            <!-- Iterate over the list of books from the model -->
-            <li th:each="book : ${books}">
-                <div>
-                    <!-- Bind the book's title to the HTML element -->
-                    <h3 th:text="${book.title}"></h3>
+    <!-- Grid container for books -->
+    <div class="container">
+        <!-- Iterate over the list of books from the model -->
+        <div class="book-card" th:each="book : ${books}">
+            <!-- Bind the book's title to the HTML element -->
+            <h3 th:text="${book.title}"></h3>
 
-                    <!-- Bind the book's description -->
-                    <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
+            <!-- Bind the book's description -->
+            <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
 
-                    <!-- Bind the book's number of pages -->
-                    <p><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
+            <!-- Bind the book's number of pages -->
+            <p><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
 
-                    <!-- Bind the list of authors -->
-                    <p><strong>Authors:</strong>
-                        <span th:each="author : ${book.authors}">
-                            <span th:text="${author}"></span><span th:if="${!author.equals(book.authors[book.authors.size() - 1])}">, </span>
-                        </span>
-                    </p>
+            <!-- Bind the list of authors -->
+            <p><strong>Authors:</strong>
+                <span th:each="author : ${book.authors}">
+                    <span th:text="${author}"></span><span th:if="${!author.equals(book.authors[book.authors.size() - 1])}">, </span>
+                </span>
+            </p>
 
-                    <!-- View button that redirects to the book's details page using the isbn as id -->
-                    <a th:href="@{|/${book.isbn}|}" class="btn">View Book</a>
-                </div>
-            </li>
-        </ul>
+            <!-- View button that redirects to the book's details page using the isbn as id -->
+            <a th:href="@{|/${book.isbn}|}" class="btn">View Book</a>
+        </div>
     </div>
+	</main>
 
+    <!-- Include footer fragment -->
+    <div th:insert="~{fragments/footer :: footer}"></div>
+
+    <!-- Include script footer if needed -->
+    <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
 </body>
 </html>

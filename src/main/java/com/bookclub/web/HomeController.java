@@ -31,6 +31,11 @@ public class HomeController {
         return new ModelAndView("contact");
     }
 
+    @RequestMapping("/wishlist")
+    public ModelAndView showWishlist() {
+        return new ModelAndView("wishlist");
+    }
+
     // New method for getting a book by its ID (isbn)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ModelAndView getMonthlyBook(@PathVariable("id") String isbn, ModelAndView model) {
