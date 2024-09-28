@@ -1,8 +1,8 @@
 package com.bookclub.service;
 
-import com.example.model.WishlistItem;
-
 import java.util.List;
+
+import com.bookclub.model.WishlistItem;
 
 public interface WishlistService {
     List<WishlistItem> listAll();

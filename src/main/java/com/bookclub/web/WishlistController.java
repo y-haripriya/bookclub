@@ -1,7 +1,8 @@
 package com.bookclub.web;
 
-import com.bookclub.service.WishlistService;
-import com.example.model.WishlistItem;
+import com.bookclub.dao.WishlistDao;
+import com.bookclub.model.WishlistItem;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,65 +10,41 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/wishlist")
 public class WishlistController {
 
-    private final WishlistService wishlistService;
+    private WishlistDao wishlistDao;
 
     @Autowired
-    public WishlistController(WishlistService wishlistService) {
-        this.wishlistService = wishlistService;
+    public void setWishlistDao(WishlistDao wishlistDao) {
+        this.wishlistDao = wishlistDao;
     }
 
-    // Method to display the wishlist
+    // Display wishlist
     @GetMapping
     public String showWishlist(Model model) {
-        List<WishlistItem> wishlist = wishlistService.listAll();  // Retrieve the current wishlist from service
-        model.addAttribute("wishlist", wishlist);  // Add 'wishlist' attribute to the model
-        return "wishlist";  // Return the main wishlist page (wishlist.html)
+        List<WishlistItem> wishlist = wishlistDao.list();
+        model.addAttribute("wishlist", wishlist);
+        return "wishlist";
     }
 
-    // Method to show the form for adding or editing a wishlist item
-    @GetMapping("/new")
-    public String wishlistForm(
-        @RequestParam(required = false) String isbn, 
-        @RequestParam(required = false) String title, 
-        Model model) {
-
-        WishlistItem wishlistItem = new WishlistItem();
-        if (isbn != null && title != null) {
-            wishlistItem.setIsbn(isbn);
-            wishlistItem.setTitle(title);
-        }
-        model.addAttribute("wishlistItem", wishlistItem);  // Bind the WishlistItem object for the form
-        return "wishlist";  // Reuse the same view (wishlist.html) to display the form
-    }
-
-    // Method to add or update a wishlist item
+    // Add new wishlist item
     @PostMapping
-    public String saveWishlistItem(@Valid WishlistItem wishlistItem, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("wishlistItem", wishlistItem);  // In case of validation errors, return form with errors
-            List<WishlistItem> wishlist = wishlistService.listAll();  // Get the current wishlist to display alongside the form
-            model.addAttribute("wishlist", wishlist);  // Add the current wishlist back to the model
-            return "wishlist";  // Return the form view with the error messages
+    public String addWishlistItem(@Valid WishlistItem wishlistItem, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "wishlist";
         }
-
-        wishlistService.save(wishlistItem);  // Add or update the item in the service
-        return "redirect:/wishlist";  // Redirect back to the main wishlist view after successfully adding or updating the item
+        wishlistDao.add(wishlistItem);
+        return "redirect:/wishlist";
+    }
+    @GetMapping("/new")
+    public String newWishlistItem(Model model) {
+        model.addAttribute("wishlistItem", new WishlistItem());
+        return "wishlist";
     }
 
-    // Method to delete a wishlist item
-    @GetMapping("/delete/{isbn}")
-    public String deleteWishlistItem(@PathVariable String isbn) {
-        wishlistService.deleteByIsbn(isbn);  // Delete the item with the matching ISBN from the service
-        return "redirect:/wishlist";  // Redirect back to the main wishlist view after deletion
-    }
 }

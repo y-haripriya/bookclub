@@ -14,16 +14,26 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            min-height: 100vh; /* Ensure the body takes the full height of the screen */
+            display: flex;
+            flex-direction: column;
         }
+
+        main {
+            flex: 1; /* Ensure main content fills the remaining space */
+        }
+
         h1, h2 {
             text-align: center;
         }
+
         .container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px;
         }
+
         .book-card {
             border: 1px solid #ddd;
             padding: 15px;
@@ -31,9 +41,11 @@
             background-color: #f9f9f9;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
+
         .book-card h3 {
             margin-top: 0;
         }
+
         .btn {
             display: inline-block;
             padding: 8px 12px;
@@ -42,57 +54,68 @@
             text-decoration: none;
             border-radius: 4px;
         }
+
         .btn:hover {
             background-color: #0056b3;
         }
+
         footer {
             text-align: center;
             padding: 20px;
             background-color: #f1f1f1;
+            margin-top: auto; /* Ensure the footer stays at the bottom */
         }
+		.footer-content {
+		            display: flex;
+		            justify-content: center;
+		            align-items: center;
+		            height: 100%;
+		}
     </style>
 </head>
 <body>
 	<div th:insert="~{fragments/header :: header}"></div>
-	 <br>
-	 <br>
-	   <main>
-		<div class="d-flex justify-content-center align-items-center vh-50">
-		        <div class="text-center">
-    <h1>Welcome to the Book Club</h1>
-    <br>
-    <h2>Books List</h2>
 
-    <!-- Grid container for books -->
-    <div class="container">
-        <!-- Iterate over the list of books from the model -->
-        <div class="book-card" th:each="book : ${books}">
-            <!-- Bind the book's title to the HTML element -->
-            <h3 th:text="${book.title}"></h3>
+    <main>
+		<div class="text-center">
+		    <h1>Welcome to the Book Club</h1>
+		    <br>
+		    <h2>Books List</h2>
 
-            <!-- Bind the book's description -->
-            <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
+		    <!-- Grid container for books -->
+		    <div class="container">
+		        <!-- Iterate over the list of books from the model -->
+		        <div class="book-card" th:each="book : ${books}">
+		            <!-- Bind the book's title to the HTML element -->
+		            <h3 th:text="${book.title}"></h3>
 
-            <!-- Bind the book's number of pages -->
-            <p><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
+		            <!-- Bind the book's description -->
+		            <p><strong>Description:</strong> <span th:text="${book.description}"></span></p>
 
-            <!-- Bind the list of authors -->
-            <p><strong>Authors:</strong>
-                <span th:each="author : ${book.authors}">
-                    <span th:text="${author}"></span><span th:if="${!author.equals(book.authors[book.authors.size() - 1])}">, </span>
-                </span>
-            </p>
+		            <!-- Bind the book's number of pages -->
+		            <p><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
 
-            <!-- View button that redirects to the book's details page using the isbn as id -->
-            <a th:href="@{|/${book.isbn}|}" class="btn">View Book</a>
-        </div>
-    </div>
+		            <!-- Bind the list of authors -->
+		            <p><strong>Authors:</strong>
+		                <span th:each="author : ${book.authors}">
+		                    <span th:text="${author}"></span><span th:if="${!author.equals(book.authors[book.authors.size() - 1])}">, </span>
+		                </span>
+		            </p>
+
+		            <!-- View button that redirects to the book's details page using the isbn as id -->
+		            <a th:href="@{|/${book.isbn}|}" class="btn">View Book</a>
+		        </div>
+		    </div>
+		</div>
 	</main>
 
-    <!-- Include footer fragment -->
-    <div th:insert="~{fragments/footer :: footer}"></div>
-
-    <!-- Include script footer if needed -->
-    <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+    <!-- Footer section with center alignment -->
+    <footer>
+		
+		<div  class="footer-content" th:insert="~{fragments/footer :: footer}"></div>
+					    <div class="footer-content" th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>
+    </footer>
 </body>
 </html>
+
+

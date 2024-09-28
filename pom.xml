@@ -27,6 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
+    <mongodb-driver-sync-version>5.2.0</mongodb-driver-sync-version>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -48,8 +49,18 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-mongodb</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver-sync</artifactId>   
+    </dependency>
+</dependencies>
 
-	</dependencies>
+
+	
 
 	<build>
 		<plugins>
