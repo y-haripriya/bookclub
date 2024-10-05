@@ -46,5 +46,10 @@ public class WishlistController {
         model.addAttribute("wishlistItem", new WishlistItem());
         return "wishlist";
     }
+    @GetMapping("/error")
+    public String Error(Model model) {
+        model.addAttribute("wishlistItem", new WishlistItem());
+        return "wishlist";
+    }
 
 }

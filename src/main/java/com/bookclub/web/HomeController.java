@@ -35,6 +35,7 @@ public class HomeController {
     public ModelAndView showWishlist() {
         return new ModelAndView("wishlist");
     }
+    
 
     // New method for getting a book by its ID (isbn)
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -53,4 +54,6 @@ public class HomeController {
 
         return model;
     }
+  
+
 }
