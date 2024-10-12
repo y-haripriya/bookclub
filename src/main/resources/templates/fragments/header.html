@@ -42,10 +42,17 @@
                             </span>
                         </div>
                         
-                        <!-- Right side - logout button -->
-                        <div class="col-4 text-end">
-                            <a class="btn btn-outline-dark" th:href="@{/logout}">Logout</a>
-                        </div>
+						<!-- Right side - OpenAPI link and logout button -->
+						<div class="col-4 text-end">
+						    <!-- OpenAPI Specification link in bold -->
+						    <a class="btn btn-outline-dark fw-bold" href="/swagger-ui.html" target="_blank" style="margin-right: 10px;">OpenAPI Specification</a>
+						    
+						    <!-- Logout button -->
+						    <a class="btn btn-outline-dark" th:href="@{/logout}">Logout</a>
+						</div>
+
+
+                       </div>
                     </div>
                 </div>
             </nav>

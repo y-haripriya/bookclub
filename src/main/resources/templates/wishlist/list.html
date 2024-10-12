@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist</title>
+    <!-- Bootstrap CSS for styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Wishlist</h1>
+        <!-- Empty div where the table will be inserted -->
+        <div id="wishlist"></div>
+    </div>
+
+    <script>
+        // Function to fetch the wishlist from the REST API
+        async function getWishlist() {
+            try {
+                const response = await fetch("/api/wishlist");  // Fetch data from the REST API
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const wishlistItems = await response.json();  // Parse the JSON data
+                buildTable(wishlistItems);  // Call function to build the table with the data
+            } catch (error) {
+                console.error("Error fetching wishlist:", error);
+                document.getElementById("wishlist").innerHTML = "<p>Error loading wishlist. Please try again later.</p>";
+            }
+        }
+
+        // Function to dynamically build the table using Bootstrap
+        function buildTable(items) {
+            let tableString = `
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ISBN</th>
+                            <th>Title</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+
+            // Loop over each wishlist item and add rows to the table
+            for (const item of items) {
+                tableString += `
+                    <tr>
+                        <td>${item.isbn}</td>
+                        <td>${item.title}</td>
+                    </tr>`;
+            }
+
+            // Close the table tags
+            tableString += `
+                    </tbody>
+                </table>`;
+
+            // Insert the table into the "wishlist" div
+            document.getElementById("wishlist").innerHTML = tableString;
+        }
+
+        // Call the function to fetch and display wishlist items
+        getWishlist();
+    </script>
+</body>
+</html>
