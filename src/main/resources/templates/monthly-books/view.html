@@ -4,46 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Details</title>
-    <!-- Include Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-	<div th:insert="~{fragments/header :: header}"></div>
-	  <br>
-	  <br>
-	    <main>
-				<div class="d-flex justify-content-center align-items-center vh-50">
-				      <div class="text-center">
-    <div class="container mt-4">
-        <!-- Bootstrap Card to display the book details -->
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-title" th:text="${book.title}"></h2>
-                <h4 class="card-subtitle mb-2 text-muted" th:text="'ISBN: ' + ${book.isbn}"></h4>
-                <p class="card-text" th:text="${book.description}"></p>
-                <p class="card-text"><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
-                
-                <!-- Display the list of authors using Thymeleaf's each directive -->
-                <p class="card-text"><strong>Authors:</strong>
-                    <span th:each="author : ${book.authors}">
-                        <span th:text="${author}"></span><span th:if="${!author.equals(book.authors[book.authors.size() - 1])}">, </span>
-                    </span>
-                </p>
-
-                <!-- Return link to go back to the index page -->
-                <a href="/" class="btn btn-primary">Back to Home</a>
+    <div th:insert="~{fragments/header :: header}"></div>
+    <main>
+        <div class="d-flex justify-content-center align-items-center vh-50">
+            <div class="text-center">
+                <div class="container mt-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 class="card-title" th:text="${book.title}"></h2>
+                            <h4 class="card-subtitle mb-2 text-muted" th:text="'ISBN: ' + ${book.isbn}"></h4>
+                            <p class="card-text" th:text="${book.description}"></p>
+                            <p class="card-text"><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
+                            <a th:href="${book.infoUrl}" class="btn btn-primary" target="_blank">Web Link</a>
+                            <a href="/" class="btn btn-secondary mt-2">Back to Home</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-	</main>
-    <!-- Include Bootstrap JS and dependencies -->
+    </main>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	<br>
-	<br>
-	<div th:insert="~{fragments/footer :: footer}"></div>
-	  <div th:insert="~{fragments/scriptFooter :: scriptFooter}"></div>|
-	
+    <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>
