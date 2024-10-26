@@ -89,7 +89,8 @@ public class RestBookDao {
     // Example mock data method
     private List<Book> loadMockBooks() {
         List<Book> mockBooks = new ArrayList<>();
-        mockBooks.add(new Book("0385472579", "The Book Thief", "A story about a girl during World War II", "https://example.com/book1", 584));
+        mockBooks.add(new Book("0385472579", "The Book Thief", "A story about a girl during World War II",
+        		"https://example.com/book1", 584));
         mockBooks.add(new Book("0451526538", "1984", "Dystopian novel", "https://example.com/book2", 328));
         return mockBooks;
     }

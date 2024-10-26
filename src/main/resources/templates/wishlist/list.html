@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Wishlist</h1>
+	<div th:insert="~{fragments/header :: header}"></div>
+	<div class="container mt-5">
+	    <h1 class="text-center">My Wishlist</h1>
         <!-- Empty div where the table will be inserted -->
         <div id="wishlist"></div>
     </div>
@@ -38,6 +39,7 @@
                         <tr>
                             <th>ISBN</th>
                             <th>Title</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>`;
@@ -48,6 +50,11 @@
                     <tr>
                         <td>${item.isbn}</td>
                         <td>${item.title}</td>
+                        <td>
+                            <a href="/wishlist/${item.isbn}" class="btn btn-secondary btn-sm">Edit</a>
+                            <a href="/wishlist/delete/${item.isbn}" class="btn btn-link text-danger" th:onclick="'return 
+							confirm(\'Are you sure you want to delete this item?\');'">Delete</a>
+                        </td>
                     </tr>`;
             }
 
@@ -59,9 +66,12 @@
             // Insert the table into the "wishlist" div
             document.getElementById("wishlist").innerHTML = tableString;
         }
-
+		
         // Call the function to fetch and display wishlist items
         getWishlist();
     </script>
+	<br>
+	<br>
+	<div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>
