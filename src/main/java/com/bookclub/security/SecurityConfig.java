@@ -2,13 +2,9 @@ package com.bookclub.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,18 +19,24 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    // 2. SecurityFilterChain Bean (Replaces configure(HttpSecurity http))
+    // 2. SecurityFilterChain Bean using the lambda syntax
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .anyRequest().authenticated()  // Require authentication for all requests
-            .and()
-            .formLogin()
-            .loginPage("/login").defaultSuccessUrl("/", true)          // Custom login page
-            .permitAll()
-            .and()
-            .logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true)
-            .permitAll();                   // Allow all users to log out
+        http
+            .authorizeHttpRequests(authorize -> authorize
+                // Restrict access to /monthly-books URLs to only ADMIN users
+                .requestMatchers("/monthly-books", "/monthly-books/list", "/monthly-books/new").hasRole("ADMIN")
+                // Require authentication for all other requests
+                .anyRequest().authenticated()
+            )
+            .formLogin(form -> form
+                .loginPage("/login").defaultSuccessUrl("/", true) // Custom login page
+                .permitAll()
+            )
+            .logout(logout -> logout
+                .logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true)
+                .permitAll()
+            );
         return http.build();
     }
 

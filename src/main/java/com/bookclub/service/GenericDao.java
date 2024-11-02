@@ -9,4 +9,7 @@ public interface GenericDao<E, K> {
     
     // Method to find an entity by key
     E find(K key);
-}
+    void add(E item);
+    void remove(K key);
+    List<E> list(K key);
+    }

@@ -1,13 +1,12 @@
 package com.bookclub.web;
 
-import com.bookclub.model.Book;
-import com.bookclub.service.impl.RestBookDao;
+import com.bookclub.dao.BookOfTheMonthDao;
+import com.bookclub.model.BookOfTheMonth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -15,33 +14,28 @@ import java.util.List;
 public class HomeController {
 
     @Autowired
-    private RestBookDao restBookDao;  // Autowiring the new RestBookDao
+    private BookOfTheMonthDao bookOfTheMonthDao;
 
-    // Home method to show list of books
-    @RequestMapping("/")
-    public ModelAndView showHome() {
-        String isbnString = "0385472579,0451526538";  // Hardcoded list of ISBNs for now
-        ModelAndView modelAndView = new ModelAndView("index");
-
-        // Fetch books from OpenLibrary API
-        List<Book> books = restBookDao.getBooksDoc(isbnString);
-        modelAndView.addObject("books", books);
-        return modelAndView;
+    // Home method to show a list of books from BookOfTheMonthDao for the homepage
+    @GetMapping("/")
+    public String showHome(Model model) {
+        // Retrieve the list of books from BookOfTheMonthDao
+        List<BookOfTheMonth> books = bookOfTheMonthDao.list();
+        
+        // Add the list of books to the model to display on the homepage
+        model.addAttribute("books", books);
+        return "index";  // Return the view name (index.html) for the homepage
     }
-    
-    // New method for getting a book by its ID (ISBN)
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ModelAndView getMonthlyBook(@PathVariable("id") String isbn) {
-        ModelAndView model = new ModelAndView("monthly-books/view");
-        List<Book> books = restBookDao.getBooksDoc(isbn);
 
-        if (books != null && !books.isEmpty()) {
-            Book book = books.get(0);
-            model.addObject("book", book);
-        } else {
-            model.addObject("error", "No book found with ISBN: " + isbn);
+    // Method to show details of a single book
+    @GetMapping("/monthly-books/view/{id}")
+    public String getBookDetails(@PathVariable String id, Model model) {
+        BookOfTheMonth book = bookOfTheMonthDao.find(id);
+        if (book == null) {
+            model.addAttribute("error", "Book not found");
+            return "redirect:/"; // Redirect to homepage if book not found
         }
-
-        return model;
+        model.addAttribute("book", book);
+        return "monthly-books/view"; // Ensure this points to your view.html file
     }
 }

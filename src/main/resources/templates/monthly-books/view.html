@@ -7,28 +7,50 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <!-- Insert Header Fragment -->
     <div th:insert="~{fragments/header :: header}"></div>
+
     <main>
         <div class="d-flex justify-content-center align-items-center vh-50">
             <div class="text-center">
                 <div class="container mt-4">
                     <div class="card">
                         <div class="card-body">
-                            <h2 class="card-title" th:text="${book.title}"></h2>
-                            <h4 class="card-subtitle mb-2 text-muted" th:text="'ISBN: ' + ${book.isbn}"></h4>
-                            <p class="card-text" th:text="${book.description}"></p>
-                            <p class="card-text"><strong>Number of Pages:</strong> <span th:text="${book.numOfPages}"></span></p>
-                            <a th:href="${book.infoUrl}" class="btn btn-primary" target="_blank">Web Link</a>
-                            <a href="/" class="btn btn-secondary mt-2">Back to Home</a>
+                            <!-- Book Title -->
+                            <h2 class="card-title" th:text="${book.title}">Book Title</h2>
+
+                            <!-- ISBN -->
+                            <h4 class="card-subtitle mb-2 text-muted" th:text="'ISBN: ' + ${book.isbn}">ISBN Number</h4>
+
+                            <!-- Description -->
+                            <p class="card-text" th:text="${book.description}">Description of the book goes here.</p>
+
+                            <!-- Month -->
+                            <p class="card-text">
+                                <strong>Month:</strong> 
+                                <span th:text="${book.month}">Month</span>
+                            </p>
+
+                            <!-- Number of Pages -->
+                            <p class="card-text">
+                                <strong>Number of Pages:</strong> 
+                                <span th:text="${book.pages}">Page Count</span>
+                            </p>
+
+                            <!-- Back Button -->
+                            <a th:href="@{/}" class="btn btn-secondary mt-2">Back to Monthly Books</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- jQuery, Popper.js, Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Insert Footer Fragment -->
     <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

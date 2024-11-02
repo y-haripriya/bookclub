@@ -3,73 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Club</title>
+    <title>|Book Club|</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        main {
-            flex: 1;
-        }
-
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .book-card {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .btn {
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #f1f1f1;
-            margin-top: auto;
-        }
-    </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100 bg-light">
+    <!-- Include Header Fragment -->
     <div th:insert="~{fragments/header :: header}"></div>
-    <main>
-        <div class="text-center">
-            <h1>Welcome to the Book Club</h1>
-            <h2>Books List</h2>
-            <div class="container">
-                <div class="book-card" th:each="book : ${books}">
-                    <h3 th:text="${book.title}"></h3>
-                    <p><strong>ISBN:</strong> <span th:text="${book.isbn}"></span></p>
-                    <a th:href="@{|/${book.isbn}|}" class="btn">View Book</a>
-                    <a th:href="${book.infoUrl}" class="btn" target="_blank">Web Link</a>
+
+    <!-- Main Content Area -->
+    <main class="container mt-5 flex-grow-1">
+        <h1 class="text-center mb-4">Books of the Month</h1>
+
+        <!-- Display books in a grid of cards -->
+        <div class="row row-cols-1 row-cols-md-3 g-4" th:if="${books != null}">
+            <div th:each="book : ${books}" class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <!-- Display the book title -->
+                        <h5 class="card-title" th:text="${book.title}">Book Title</h5>
+                        <p class="card-text">
+                            <small class="text-muted">ISBN: <span th:text="${book.isbn}">ISBN Number</span></small>
+                        </p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+						<a th:href="@{/monthly-books/view/{id}(id=${book.id})}" class="btn btn-primary">View</a>
+                        <a th:href="@{/books/link/{id}(id=${book.id})}" class="btn btn-secondary">Web Link</a>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
-    <footer>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
         <div th:insert="~{fragments/footer :: footer}"></div>
     </footer>
+
+    <!-- Bootstrap Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
